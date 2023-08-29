@@ -1,10 +1,16 @@
 from fastapi import FastAPI
 from typing import Union
 
+from pydantic import BaseModel
+
 App = FastAPI()
 
-@App.get("/")
+class Item(BaseModel):
+    name:str
+    price:float
+    is_offer: Union[bool,None] = None
 
+@App.get("/")
 def read_root():
     return {'Hello': 'World!!!'}
 
@@ -24,3 +30,7 @@ def Suma(num_1: int,num_2:int):
 def multiplicar(num_1: float, num_2: float):
     resultado = num_1 * num_2
     return {'Multiplicación': resultado}
+
+@App.put("/items/{items_id}")
+def update_item(item_id: int,item:Item):
+    return{"item_name":item.name,"item_id":item_id}
