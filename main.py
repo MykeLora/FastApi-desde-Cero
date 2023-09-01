@@ -33,4 +33,4 @@ def multiplicar(num_1: float, num_2: float):
 
 @App.put("/items/{items_id}")
 def update_item(item_id: int,item:Item):
-    return{"item_name":item.name,"item_id":item_id}
+    return{"item_name":item.name,"item_id":item_id,"item_prise":item.price}
