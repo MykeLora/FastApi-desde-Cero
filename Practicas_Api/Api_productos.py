@@ -32,8 +32,6 @@ def crear_producto(producto : producto):
     return {'Mensaje':'Prodcuto creado satifactoriamente.'}
 
 
-
-
 @app.get('/producto/{id_producto}')
 def obtener_producto_id(producto_id: str):
     respuesta = list(filter(lambda p:p.id == producto_id,productos))
@@ -44,4 +42,16 @@ def obtener_producto_id(producto_id: str):
 
     raise HTTPException(status_code=404,detail=f'El producto con el ID {producto_id} no existe.')
 
+@app.delete('/producto/{producto_id}')
+def eliminar_producto_por_id(producto_id: str):
+    respuesta = list(filter(lambda p:p.id == producto_id,productos))
+    
+
+    if len(respuesta):
+        producto = respuesta[0]
+        productos.remove(producto)
         
+        return {'Mensaje':'El producto ha sido eliminado satisfatoriamente.'}
+
+    raise HTTPException(status_code=404,detail=f'El producto con el ID {producto_id} no existe.')
+
