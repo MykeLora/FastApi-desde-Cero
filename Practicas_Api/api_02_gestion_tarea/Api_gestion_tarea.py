@@ -41,9 +41,13 @@ async def create_task(task: Task):
 
 @app.get('/tasks/{task_id}')
 async def get_task(task_id: int = Path(...,title="ID de la tarea")):
-    if task_id < 0 or task_id >= len(tasks):
-        raise HTTPException(status_code=404, detail="Tarea no encontrada")
-    return tasks[task_id]
+    resultado = list(filter(lambda t:t.id == task_id,tasks))
+
+    if(len(resultado)):
+        return resultado[0]
+    
+    raise HTTPException(status_code=404,detail=f"La tarea con el id {task_id} no existe.")
+
 
 @app.put('/tasks/{task_id}')
 async def update_task(task_id: int, update_task: Task):
@@ -54,9 +58,12 @@ async def update_task(task_id: int, update_task: Task):
     return update_task
 
 @app.delete('/tasks/{task_id}')
-async def delete_task(task_id: int):
-    if task_id < 0 or task_id >= len(tasks):
-        raise HTTPException(status_code=404,detail="Tarea no encontrada")
+async def eliminar_taks_por_id(task_id: int):
+
+    for task in tasks:
+        if task.id == task_id:
+            tasks.remove(task)
+
+        return {'Mensaje':'La categoria ha sido eliminada satisfatoriamente.'}
     
-    deleted_task = tasks.pop(task_id)
-    return deleted_task
+    raise HTTPException(status_code=404, detail=f'La tarea con el ID {task_id} no existe.')
