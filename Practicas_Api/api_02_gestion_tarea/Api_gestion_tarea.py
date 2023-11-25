@@ -17,7 +17,7 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],  # Permitir todos los métodos (GET, POST, etc.)
-    allow_headers=["*"],  # Permitir todos los encabezados
+    allow_headers=["Get"],  # Permitir todos los encabezados
 )
 
 
